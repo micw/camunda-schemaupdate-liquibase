@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!--
+	index for deadlock problem
+	- https://app.camunda.com/jira/browse/CAM-3565 
+	-->
+
+    <!--
+	create index ACT_IDX_EXECUTION_PROCINST on ACT_RU_EXECUTION(PROC_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-patch-7.1.4-to-7.1.5-2">
+        <createIndex indexName="ACT_IDX_EXECUTION_PROCINST" tableName="ACT_RU_EXECUTION">
+            <column name="PROC_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

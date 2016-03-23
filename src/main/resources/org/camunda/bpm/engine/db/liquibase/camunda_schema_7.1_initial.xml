@@ -1,0 +1,1634 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-check-1">
+        <preConditions onError="HALT" onFail="HALT"
+                onErrorMessage="Failed to check preconditions"
+                onFailMessage="Table ACT_GE_PROPERTY already exists. You need to start with a fresh database or manually setup the initial state. See CamundaLiquibaseHowto.md for detail.">
+                <not>
+                        <tableExists tableName="ACT_GE_PROPERTY"/>
+                </not>
+        </preConditions>
+    </changeSet>
+    
+    <!--
+    create table ACT_GE_PROPERTY (
+	    NAME_ varchar(64),
+	    VALUE_ varchar(300),
+	    REV_ integer,
+	    primary key (NAME_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-1">
+        <createTable tableName="ACT_GE_PROPERTY">
+            <column name="NAME_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="VALUE_" type="VARCHAR(300)"/>
+            <column name="REV_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+
+    <!--
+	insert into ACT_GE_PROPERTY
+	values ('schema.version', 'fox', 1);
+	
+	insert into ACT_GE_PROPERTY
+	values ('schema.history', 'create(fox)', 1);
+	
+	insert into ACT_GE_PROPERTY
+	values ('next.dbid', '1', 1);
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-2">
+    	<insert tableName="ACT_GE_PROPERTY">
+    		<column name="NAME_" value="schema.version"/>
+    		<column name="VALUE_" value="fox"/>
+    		<column name="REV_" value="1"/>
+    	</insert>
+    	<insert tableName="ACT_GE_PROPERTY">
+    		<column name="NAME_" value="schema.history"/>
+    		<column name="VALUE_" value="create(fox)"/>
+    		<column name="REV_" value="1"/>
+    	</insert>
+    	<insert tableName="ACT_GE_PROPERTY">
+    		<column name="NAME_" value="next.dbid"/>
+    		<column name="VALUE_" value="1"/>
+    		<column name="REV_" value="1"/>
+    	</insert>
+    </changeSet>
+    
+    <!--
+	create table ACT_GE_BYTEARRAY (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    NAME_ varchar(255),
+	    DEPLOYMENT_ID_ varchar(64),
+	    BYTES_ LONGBLOB,
+	    GENERATED_ TINYINT,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-3">
+        <createTable tableName="ACT_GE_BYTEARRAY">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="DEPLOYMENT_ID_" type="VARCHAR(64)"/>
+            <column name="BYTES_" type="LONGBLOB"/>
+            <column name="GENERATED_" type="TINYINT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RE_DEPLOYMENT (
+	    ID_ varchar(64),
+	    NAME_ varchar(255),
+	    DEPLOY_TIME_ timestamp,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-4">
+        <createTable tableName="ACT_RE_DEPLOYMENT">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="DEPLOY_TIME_" type="TIMESTAMP">
+            	<constraints nullable="false"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RU_EXECUTION (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    PROC_INST_ID_ varchar(64),
+	    BUSINESS_KEY_ varchar(255),
+	    PARENT_ID_ varchar(64),
+	    PROC_DEF_ID_ varchar(64),
+	    SUPER_EXEC_ varchar(64),
+	    ACT_ID_ varchar(255),
+	    ACT_INST_ID_ varchar(64),
+	    IS_ACTIVE_ TINYINT,
+	    IS_CONCURRENT_ TINYINT,
+	    IS_SCOPE_ TINYINT,
+	    IS_EVENT_SCOPE_ TINYINT,
+	    SUSPENSION_STATE_ integer,
+	    CACHED_ENT_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-5">
+        <createTable tableName="ACT_RU_EXECUTION">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="BUSINESS_KEY_" type="VARCHAR(255)"/>
+            <column name="PARENT_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="SUPER_EXEC_" type="VARCHAR(64)"/>
+            <column name="ACT_ID_" type="VARCHAR(255)"/>
+            <column name="ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="IS_ACTIVE_" type="TINYINT"/>
+            <column name="IS_CONCURRENT_" type="TINYINT"/>
+            <column name="IS_SCOPE_" type="TINYINT"/>
+            <column name="IS_EVENT_SCOPE_" type="TINYINT"/>
+            <column name="SUSPENSION_STATE_" type="INT"/>
+            <column name="CACHED_ENT_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RU_JOB (
+	    ID_ varchar(64) NOT NULL,
+		REV_ integer,
+	    TYPE_ varchar(255) NOT NULL,
+	    LOCK_EXP_TIME_ timestamp NULL,
+	    LOCK_OWNER_ varchar(255),
+	    EXCLUSIVE_ boolean,
+	    EXECUTION_ID_ varchar(64),
+	    PROCESS_INSTANCE_ID_ varchar(64),
+	    PROCESS_DEF_ID_ varchar(64),
+	    PROCESS_DEF_KEY_ varchar(64),
+	    RETRIES_ integer,
+	    EXCEPTION_STACK_ID_ varchar(64),
+	    EXCEPTION_MSG_ varchar(4000),
+	    DUEDATE_ timestamp NULL,
+	    REPEAT_ varchar(255),
+	    HANDLER_TYPE_ varchar(255),
+	    HANDLER_CFG_ varchar(4000),
+	    DEPLOYMENT_ID_ varchar(64),
+	    SUSPENSION_STATE_ integer,
+	    JOB_DEF_ID_ varchar(64),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-6">
+        <createTable tableName="ACT_RU_JOB">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LOCK_EXP_TIME_" type="TIMESTAMP"/>
+            <column name="LOCK_OWNER_" type="VARCHAR(255)"/>
+            <column name="EXCLUSIVE_" type="BIT"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_INSTANCE_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_DEF_KEY_" type="VARCHAR(64)"/>
+            <column name="RETRIES_" type="INT"/>
+            <column name="EXCEPTION_STACK_ID_" type="VARCHAR(64)"/>
+            <column name="EXCEPTION_MSG_" type="VARCHAR(4000)"/>
+            <column name="DUEDATE_" type="TIMESTAMP"/>
+            <column name="REPEAT_" type="VARCHAR(255)"/>
+            <column name="HANDLER_TYPE_" type="VARCHAR(255)"/>
+            <column name="HANDLER_CFG_" type="VARCHAR(4000)"/>
+            <column name="DEPLOYMENT_ID_" type="VARCHAR(64)"/>
+            <column name="SUSPENSION_STATE_" type="INT"/>
+            <column name="JOB_DEF_ID_" type="VARCHAR(64)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RU_JOBDEF (
+	    ID_ varchar(64) NOT NULL,
+	    REV_ integer,
+	    PROC_DEF_ID_ varchar(64) NOT NULL,
+	    PROC_DEF_KEY_ varchar(255) NOT NULL,
+	    ACT_ID_ varchar(255) NOT NULL,
+	    JOB_TYPE_ varchar(255) NOT NULL,
+	    JOB_CONFIGURATION_ varchar(255),
+	    SUSPENSION_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-7">
+        <createTable tableName="ACT_RU_JOBDEF">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACT_ID_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_CONFIGURATION_" type="VARCHAR(255)"/>
+            <column name="SUSPENSION_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RE_PROCDEF (
+	    ID_ varchar(64) not null,
+	    REV_ integer,
+	    CATEGORY_ varchar(255),
+	    NAME_ varchar(255),
+	    KEY_ varchar(255) not null,
+	    VERSION_ integer not null,
+	    DEPLOYMENT_ID_ varchar(64),
+	    RESOURCE_NAME_ varchar(4000),
+	    DGRM_RESOURCE_NAME_ varchar(4000),
+	    HAS_START_FORM_KEY_ TINYINT,
+	    SUSPENSION_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-8">
+        <createTable tableName="ACT_RE_PROCDEF">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="CATEGORY_" type="VARCHAR(255)"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPLOYMENT_ID_" type="VARCHAR(64)"/>
+            <column name="RESOURCE_NAME_" type="VARCHAR(4000)"/>
+            <column name="DGRM_RESOURCE_NAME_" type="VARCHAR(4000)"/>
+            <column name="HAS_START_FORM_KEY_" type="TINYINT"/>
+            <column name="SUSPENSION_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RU_TASK (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    EXECUTION_ID_ varchar(64),
+	    PROC_INST_ID_ varchar(64),
+	    PROC_DEF_ID_ varchar(64),
+	    NAME_ varchar(255),
+	    PARENT_TASK_ID_ varchar(64),
+	    DESCRIPTION_ varchar(4000),
+	    TASK_DEF_KEY_ varchar(255),
+	    OWNER_ varchar(255),
+	    ASSIGNEE_ varchar(255),
+	    DELEGATION_ varchar(64),
+	    PRIORITY_ integer,
+	    CREATE_TIME_ timestamp,
+	    DUE_DATE_ datetime,
+	    FOLLOW_UP_DATE_ datetime,
+	    SUSPENSION_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-9">
+        <createTable tableName="ACT_RU_TASK">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="PARENT_TASK_ID_" type="VARCHAR(64)"/>
+            <column name="DESCRIPTION_" type="VARCHAR(4000)"/>
+            <column name="TASK_DEF_KEY_" type="VARCHAR(255)"/>
+            <column name="OWNER_" type="VARCHAR(255)"/>
+            <column name="ASSIGNEE_" type="VARCHAR(255)"/>
+            <column name="DELEGATION_" type="VARCHAR(64)"/>
+            <column name="PRIORITY_" type="INT"/>
+            <column name="CREATE_TIME_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DUE_DATE_" type="datetime"/>
+            <column name="FOLLOW_UP_DATE_" type="datetime"/>
+            <column name="SUSPENSION_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+    <!--
+	create table ACT_RU_IDENTITYLINK (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    GROUP_ID_ varchar(255),
+	    TYPE_ varchar(255),
+	    USER_ID_ varchar(255),
+	    TASK_ID_ varchar(64),
+	    PROC_DEF_ID_ varchar(64),    
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-10">
+        <createTable tableName="ACT_RU_IDENTITYLINK">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="GROUP_ID_" type="VARCHAR(255)"/>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+            <column name="USER_ID_" type="VARCHAR(255)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+    <!--
+	create table ACT_RU_VARIABLE (
+	    ID_ varchar(64) not null,
+	    REV_ integer,
+	    TYPE_ varchar(255) not null,
+	    NAME_ varchar(255) not null,
+	    EXECUTION_ID_ varchar(64),
+		  PROC_INST_ID_ varchar(64),
+	    TASK_ID_ varchar(64),
+	    BYTEARRAY_ID_ varchar(64),
+	    DOUBLE_ double,
+	    LONG_ bigint,
+	    TEXT_ varchar(4000),
+	    TEXT2_ varchar(4000),
+	    VAR_SCOPE_ varchar(64) not null,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-11">
+        <createTable tableName="ACT_RU_VARIABLE">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="BYTEARRAY_ID_" type="VARCHAR(64)"/>
+            <column name="DOUBLE_" type="DOUBLE"/>
+            <column name="LONG_" type="BIGINT"/>
+            <column name="TEXT_" type="VARCHAR(4000)"/>
+            <column name="TEXT2_" type="VARCHAR(4000)"/>
+            <column name="VAR_SCOPE_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+    <!--
+	create table ACT_RU_EVENT_SUBSCR (
+	    ID_ varchar(64) not null,
+	    REV_ integer,
+	    EVENT_TYPE_ varchar(255) not null,
+	    EVENT_NAME_ varchar(255),
+	    EXECUTION_ID_ varchar(64),
+	    PROC_INST_ID_ varchar(64),
+	    ACTIVITY_ID_ varchar(64),
+	    CONFIGURATION_ varchar(255),
+	    CREATED_ timestamp not null,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-12">
+        <createTable tableName="ACT_RU_EVENT_SUBSCR">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="EVENT_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EVENT_NAME_" type="VARCHAR(255)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="ACTIVITY_ID_" type="VARCHAR(64)"/>
+            <column name="CONFIGURATION_" type="VARCHAR(255)"/>
+            <column name="CREATED_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+    <!--
+	create table ACT_RU_INCIDENT (
+	  ID_ varchar(64) not null,
+	  INCIDENT_TIMESTAMP_ timestamp not null,
+	  INCIDENT_MSG_ varchar(4000),
+	  INCIDENT_TYPE_ varchar(255) not null,
+	  EXECUTION_ID_ varchar(64),
+	  ACTIVITY_ID_ varchar(255),
+	  PROC_INST_ID_ varchar(64),
+	  PROC_DEF_ID_ varchar(64),
+	  CAUSE_INCIDENT_ID_ varchar(64),
+	  ROOT_CAUSE_INCIDENT_ID_ varchar(64),
+	  CONFIGURATION_ varchar(255),
+	  primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-13">
+        <createTable tableName="ACT_RU_INCIDENT">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="INCIDENT_TIMESTAMP_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="INCIDENT_MSG_" type="VARCHAR(4000)"/>
+            <column name="INCIDENT_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="ACTIVITY_ID_" type="VARCHAR(255)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="CAUSE_INCIDENT_ID_" type="VARCHAR(64)"/>
+            <column name="ROOT_CAUSE_INCIDENT_ID_" type="VARCHAR(64)"/>
+            <column name="CONFIGURATION_" type="VARCHAR(255)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+    <!--
+	create table ACT_RU_AUTHORIZATION (
+	  ID_ varchar(64) not null,
+	  REV_ integer not null,
+	  TYPE_ integer not null,
+	  GROUP_ID_ varchar(255),
+	  USER_ID_ varchar(255),
+	  RESOURCE_TYPE_ integer not null,
+	  RESOURCE_ID_ varchar(64),
+	  PERMS_ integer,
+	  primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+    -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-14">
+        <createTable tableName="ACT_RU_AUTHORIZATION">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROUP_ID_" type="VARCHAR(255)"/>
+            <column name="USER_ID_" type="VARCHAR(255)"/>
+            <column name="RESOURCE_TYPE_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_ID_" type="VARCHAR(64)"/>
+            <column name="PERMS_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+	<!--
+	create index ACT_IDX_EXEC_BUSKEY on ACT_RU_EXECUTION(BUSINESS_KEY_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-15">
+        <createIndex indexName="ACT_IDX_EXEC_BUSKEY" tableName="ACT_RU_EXECUTION">
+            <column name="BUSINESS_KEY_"/>
+        </createIndex>
+    </changeSet>
+
+	<!--
+	create index ACT_IDX_TASK_CREATE on ACT_RU_TASK(CREATE_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-16">
+        <createIndex indexName="ACT_IDX_TASK_CREATE" tableName="ACT_RU_TASK">
+            <column name="CREATE_TIME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_IDENT_LNK_USER on ACT_RU_IDENTITYLINK(USER_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-17">
+        <createIndex indexName="ACT_IDX_IDENT_LNK_USER" tableName="ACT_RU_IDENTITYLINK">
+            <column name="USER_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_IDENT_LNK_GROUP on ACT_RU_IDENTITYLINK(GROUP_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-18">
+        <createIndex indexName="ACT_IDX_IDENT_LNK_GROUP" tableName="ACT_RU_IDENTITYLINK">
+            <column name="GROUP_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_EVENT_SUBSCR_CONFIG_ on ACT_RU_EVENT_SUBSCR(CONFIGURATION_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-19">
+        <createIndex indexName="ACT_IDX_EVENT_SUBSCR_CONFIG_" tableName="ACT_RU_EVENT_SUBSCR">
+            <column name="CONFIGURATION_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_VARIABLE_TASK_ID on ACT_RU_VARIABLE(TASK_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-20">
+        <createIndex indexName="ACT_IDX_VARIABLE_TASK_ID" tableName="ACT_RU_VARIABLE">
+            <column name="TASK_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_ATHRZ_PROCEDEF on ACT_RU_IDENTITYLINK(PROC_DEF_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-21">
+        <createIndex indexName="ACT_IDX_ATHRZ_PROCEDEF" tableName="ACT_RU_IDENTITYLINK">
+            <column name="PROC_DEF_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_INC_CONFIGURATION on ACT_RU_INCIDENT(CONFIGURATION_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-22">
+        <createIndex indexName="ACT_IDX_INC_CONFIGURATION" tableName="ACT_RU_INCIDENT">
+            <column name="CONFIGURATION_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	alter table ACT_GE_BYTEARRAY
+	    add constraint ACT_FK_BYTEARR_DEPL
+	    foreign key (DEPLOYMENT_ID_)
+	    references ACT_RE_DEPLOYMENT (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-23">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_GE_BYTEARRAY"
+        	constraintName="ACT_FK_BYTEARR_DEPL"
+        	baseColumnNames="DEPLOYMENT_ID_"
+        	referencedTableName="ACT_RE_DEPLOYMENT"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!--
+	alter table ACT_RE_PROCDEF
+	    add constraint ACT_UNIQ_PROCDEF
+	    unique (KEY_,VERSION_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-24">
+        <addUniqueConstraint
+        	tableName="ACT_RE_PROCDEF"
+        	constraintName="ACT_UNIQ_PROCDEF"
+        	columnNames="KEY_, VERSION_" />
+    </changeSet>
+	
+	<!--
+	alter table ACT_RU_EXECUTION
+	    add constraint ACT_FK_EXE_PROCINST
+	    foreign key (PROC_INST_ID_)
+	    references ACT_RU_EXECUTION (ID_) on delete cascade on update cascade;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-25">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_EXECUTION"
+        	constraintName="ACT_FK_EXE_PROCINST"
+        	baseColumnNames="PROC_INST_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"
+        	onDelete="CASCADE"
+			onUpdate="CASCADE"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_EXECUTION
+	    add constraint ACT_FK_EXE_PARENT
+	    foreign key (PARENT_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-26">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_EXECUTION"
+        	constraintName="ACT_FK_EXE_PARENT"
+        	baseColumnNames="PARENT_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_EXECUTION
+	    add constraint ACT_FK_EXE_SUPER 
+	    foreign key (SUPER_EXEC_) 
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-27">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_EXECUTION"
+        	constraintName="ACT_FK_EXE_SUPER"
+        	baseColumnNames="SUPER_EXEC_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_EXECUTION
+	    add constraint ACT_FK_EXE_PROCDEF
+	    foreign key (PROC_DEF_ID_)
+	    references ACT_RE_PROCDEF (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-28">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_EXECUTION"
+        	constraintName="ACT_FK_EXE_PROCDEF"
+        	baseColumnNames="PROC_DEF_ID_"
+        	referencedTableName="ACT_RE_PROCDEF"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!--
+	alter table ACT_RU_IDENTITYLINK
+	    add constraint ACT_FK_TSKASS_TASK
+	    foreign key (TASK_ID_)
+	    references ACT_RU_TASK (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-29">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_IDENTITYLINK"
+        	constraintName="ACT_FK_TSKASS_TASK"
+        	baseColumnNames="TASK_ID_"
+        	referencedTableName="ACT_RU_TASK"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_IDENTITYLINK
+	    add constraint ACT_FK_ATHRZ_PROCEDEF
+	    foreign key (PROC_DEF_ID_)
+	    references ACT_RE_PROCDEF(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-30">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_IDENTITYLINK"
+       		constraintName="ACT_FK_ATHRZ_PROCEDEF"
+        	baseColumnNames="PROC_DEF_ID_"
+       		referencedTableName="ACT_RE_PROCDEF"
+       		referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_TASK
+	    add constraint ACT_FK_TASK_EXE
+	    foreign key (EXECUTION_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-31">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_TASK"
+        	constraintName="ACT_FK_TASK_EXE"
+        	baseColumnNames="EXECUTION_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_TASK
+	    add constraint ACT_FK_TASK_PROCINST
+	    foreign key (PROC_INST_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-32">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_TASK"
+        	constraintName="ACT_FK_TASK_PROCINST"
+        	baseColumnNames="PROC_INST_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_TASK
+	  add constraint ACT_FK_TASK_PROCDEF
+	  foreign key (PROC_DEF_ID_)
+	  references ACT_RE_PROCDEF (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-33">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_TASK"
+        	constraintName="ACT_FK_TASK_PROCDEF"
+        	baseColumnNames="PROC_DEF_ID_"
+        	referencedTableName="ACT_RE_PROCDEF"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_FK_VAR_EXE
+	    foreign key (EXECUTION_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-34">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_VARIABLE"
+        	constraintName="ACT_FK_VAR_EXE"
+        	baseColumnNames="EXECUTION_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_FK_VAR_PROCINST
+	    foreign key (PROC_INST_ID_)
+	    references ACT_RU_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-35">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_VARIABLE"
+        	constraintName="ACT_FK_VAR_PROCINST"
+        	baseColumnNames="PROC_INST_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_FK_VAR_BYTEARRAY
+	    foreign key (BYTEARRAY_ID_)
+	    references ACT_GE_BYTEARRAY (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-36">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_VARIABLE"
+        	constraintName="ACT_FK_VAR_BYTEARRAY"
+        	baseColumnNames="BYTEARRAY_ID_"
+        	referencedTableName="ACT_GE_BYTEARRAY"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_JOB 
+	    add constraint ACT_FK_JOB_EXCEPTION
+	    foreign key (EXCEPTION_STACK_ID_)
+	    references ACT_GE_BYTEARRAY (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-37">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_JOB"
+        	constraintName="ACT_FK_JOB_EXCEPTION"
+        	baseColumnNames="EXCEPTION_STACK_ID_"
+        	referencedTableName="ACT_GE_BYTEARRAY"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_EVENT_SUBSCR
+	    add constraint ACT_FK_EVENT_EXEC
+	    foreign key (EXECUTION_ID_)
+	    references ACT_RU_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-38">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_EVENT_SUBSCR"
+        	constraintName="ACT_FK_EVENT_EXEC"
+        	baseColumnNames="EXECUTION_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_INCIDENT
+	    add constraint ACT_FK_INC_EXE
+	    foreign key (EXECUTION_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-39">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_EXE"
+        	baseColumnNames="EXECUTION_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_INCIDENT
+	    add constraint ACT_FK_INC_PROCINST
+	    foreign key (PROC_INST_ID_)
+	    references ACT_RU_EXECUTION (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-40">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_PROCINST"
+        	baseColumnNames="PROC_INST_ID_"
+        	referencedTableName="ACT_RU_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_INCIDENT
+	    add constraint ACT_FK_INC_PROCDEF
+	    foreign key (PROC_DEF_ID_) 
+	    references ACT_RE_PROCDEF (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-41">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_PROCDEF"
+        	baseColumnNames="PROC_DEF_ID_"
+        	referencedTableName="ACT_RE_PROCDEF"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_INCIDENT
+	    add constraint ACT_FK_INC_CAUSE 
+	    foreign key (CAUSE_INCIDENT_ID_) 
+	    references ACT_RU_INCIDENT (ID_) on delete cascade on update cascade;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-42">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_CAUSE"
+        	baseColumnNames="CAUSE_INCIDENT_ID_"
+        	referencedTableName="ACT_RU_INCIDENT"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_INCIDENT
+	    add constraint ACT_FK_INC_RCAUSE 
+	    foreign key (ROOT_CAUSE_INCIDENT_ID_) 
+	    references ACT_RU_INCIDENT (ID_) on delete cascade on update cascade;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-43">
+        <addForeignKeyConstraint 
+        	baseColumnNames="ROOT_CAUSE_INCIDENT_ID_" 
+        	baseTableName="ACT_RU_INCIDENT" 
+        	constraintName="ACT_FK_INC_RCAUSE"
+        	referencedTableName="ACT_RU_INCIDENT"
+        	referencedColumnNames="ID_"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_AUTHORIZATION
+	    add constraint ACT_UNIQ_AUTH_USER
+	    unique (USER_ID_,TYPE_,RESOURCE_TYPE_,RESOURCE_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-44">
+        <addUniqueConstraint
+        	tableName="ACT_RU_AUTHORIZATION"
+        	constraintName="ACT_UNIQ_AUTH_USER"
+        	columnNames="USER_ID_, TYPE_, RESOURCE_TYPE_, RESOURCE_ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_AUTHORIZATION
+	    add constraint ACT_UNIQ_AUTH_GROUP
+	    unique (GROUP_ID_,TYPE_,RESOURCE_TYPE_,RESOURCE_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-45">
+        <addUniqueConstraint
+        	tableName="ACT_RU_AUTHORIZATION"
+        	constraintName="ACT_UNIQ_AUTH_GROUP"
+        	columnNames="GROUP_ID_, TYPE_, RESOURCE_TYPE_, RESOURCE_ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_UNIQ_VARIABLE
+	    unique (VAR_SCOPE_, NAME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-46">
+        <addUniqueConstraint
+        	tableName="ACT_RU_VARIABLE"
+        	constraintName="ACT_UNIQ_VARIABLE"
+        	columnNames="VAR_SCOPE_, NAME_"/>
+    </changeSet>
+
+
+
+
+
+	<!--
+	create table ACT_HI_PROCINST (
+	    ID_ varchar(64) not null,
+	    PROC_INST_ID_ varchar(64) not null,
+	    BUSINESS_KEY_ varchar(255),
+	    PROC_DEF_ID_ varchar(64) not null,
+	    START_TIME_ datetime not null,
+	    END_TIME_ datetime,
+	    DURATION_ bigint,
+	    START_USER_ID_ varchar(255),
+	    START_ACT_ID_ varchar(255),
+	    END_ACT_ID_ varchar(255),
+	    SUPER_PROCESS_INSTANCE_ID_ varchar(64),
+	    DELETE_REASON_ varchar(4000),
+	    primary key (ID_),
+	    unique (PROC_INST_ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-1">
+        <createTable tableName="ACT_HI_PROCINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="BUSINESS_KEY_" type="VARCHAR(255)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME_" type="datetime"/>
+            <column name="DURATION_" type="BIGINT"/>
+            <column name="START_USER_ID_" type="VARCHAR(255)"/>
+            <column name="START_ACT_ID_" type="VARCHAR(255)"/>
+            <column name="END_ACT_ID_" type="VARCHAR(255)"/>
+            <column name="SUPER_PROCESS_INSTANCE_ID_" type="VARCHAR(64)"/>
+            <column name="DELETE_REASON_" type="VARCHAR(4000)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+
+    <!--
+     	create table ACT_HI_ACTINST (
+	    ID_ varchar(64) not null,
+	    PARENT_ACT_INST_ID_ varchar(64),
+	    PROC_DEF_ID_ varchar(64) not null,
+	    PROC_INST_ID_ varchar(64) not null,
+	    EXECUTION_ID_ varchar(64) not null,
+	    ACT_ID_ varchar(255) not null,
+	    TASK_ID_ varchar(64),
+	    CALL_PROC_INST_ID_ varchar(64),
+	    ACT_NAME_ varchar(255),
+	    ACT_TYPE_ varchar(255) not null,
+	    ASSIGNEE_ varchar(64),
+	    START_TIME_ datetime not null,
+	    END_TIME_ datetime,
+	    DURATION_ bigint,
+	    ACT_INST_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-2">
+        <createTable tableName="ACT_HI_ACTINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PARENT_ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACT_ID_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="CALL_PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="ACT_NAME_" type="VARCHAR(255)"/>
+            <column name="ACT_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ASSIGNEE_" type="VARCHAR(64)"/>
+            <column name="START_TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME_" type="datetime"/>
+            <column name="DURATION_" type="BIGINT"/>
+            <column name="ACT_INST_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+	<!--
+	create table ACT_HI_TASKINST (
+	    ID_ varchar(64) not null,
+	    PROC_DEF_ID_ varchar(64),
+	    TASK_DEF_KEY_ varchar(255),
+	    PROC_INST_ID_ varchar(64),
+	    EXECUTION_ID_ varchar(64),
+	    ACT_INST_ID_ varchar(64),
+	    NAME_ varchar(255),
+	    PARENT_TASK_ID_ varchar(64),
+	    DESCRIPTION_ varchar(4000),
+	    OWNER_ varchar(255),
+	    ASSIGNEE_ varchar(255),
+	    START_TIME_ datetime not null,
+	    END_TIME_ datetime,
+	    DURATION_ bigint,
+	    DELETE_REASON_ varchar(4000),
+	    PRIORITY_ integer,
+	    DUE_DATE_ datetime,
+	    FOLLOW_UP_DATE_ datetime,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-3">
+        <createTable tableName="ACT_HI_TASKINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="TASK_DEF_KEY_" type="VARCHAR(255)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="PARENT_TASK_ID_" type="VARCHAR(64)"/>
+            <column name="DESCRIPTION_" type="VARCHAR(4000)"/>
+            <column name="OWNER_" type="VARCHAR(255)"/>
+            <column name="ASSIGNEE_" type="VARCHAR(255)"/>
+            <column name="START_TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME_" type="datetime"/>
+            <column name="DURATION_" type="BIGINT"/>
+            <column name="DELETE_REASON_" type="VARCHAR(4000)"/>
+            <column name="PRIORITY_" type="INT"/>
+            <column name="DUE_DATE_" type="datetime"/>
+            <column name="FOLLOW_UP_DATE_" type="datetime"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_VARINST (
+	    ID_ varchar(64) not null,
+	    PROC_INST_ID_ varchar(64),
+	    EXECUTION_ID_ varchar(64),
+	    ACT_INST_ID_ varchar(64),
+	    TASK_ID_ varchar(64),
+	    NAME_ varchar(255) not null,
+	    VAR_TYPE_ varchar(100),
+	    REV_ integer,
+	    BYTEARRAY_ID_ varchar(64),
+	    DOUBLE_ double,
+	    LONG_ bigint,
+	    TEXT_ varchar(4000),
+	    TEXT2_ varchar(4000),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-4">
+        <createTable tableName="ACT_HI_VARINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="NAME_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VAR_TYPE_" type="VARCHAR(100)"/>
+            <column name="REV_" type="INT"/>
+            <column name="BYTEARRAY_ID_" type="VARCHAR(64)"/>
+            <column name="DOUBLE_" type="DOUBLE"/>
+            <column name="LONG_" type="BIGINT"/>
+            <column name="TEXT_" type="VARCHAR(4000)"/>
+            <column name="TEXT2_" type="VARCHAR(4000)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_DETAIL (
+	    ID_ varchar(64) not null,
+	    TYPE_ varchar(255) not null,
+	    PROC_INST_ID_ varchar(64),
+	    EXECUTION_ID_ varchar(64),
+	    TASK_ID_ varchar(64),
+	    ACT_INST_ID_ varchar(64),
+	    VAR_INST_ID_ varchar(64),
+	    NAME_ varchar(255) not null,
+	    VAR_TYPE_ varchar(255),
+	    REV_ integer,
+	    TIME_ datetime not null,
+	    BYTEARRAY_ID_ varchar(64),
+	    DOUBLE_ double,
+	    LONG_ bigint,
+	    TEXT_ varchar(4000),
+	    TEXT2_ varchar(4000),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-5">
+        <createTable tableName="ACT_HI_DETAIL">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="VAR_INST_ID_" type="VARCHAR(64)"/>
+            <column name="NAME_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VAR_TYPE_" type="VARCHAR(255)"/>
+            <column name="REV_" type="INT"/>
+            <column name="TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BYTEARRAY_ID_" type="VARCHAR(64)"/>
+            <column name="DOUBLE_" type="DOUBLE"/>
+            <column name="LONG_" type="BIGINT"/>
+            <column name="TEXT_" type="VARCHAR(4000)"/>
+            <column name="TEXT2_" type="VARCHAR(4000)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_COMMENT (
+	    ID_ varchar(64) not null,
+	    TYPE_ varchar(255),
+	    TIME_ datetime not null,
+	    USER_ID_ varchar(255),
+	    TASK_ID_ varchar(64),
+	    PROC_INST_ID_ varchar(64),
+	    ACTION_ varchar(255),
+	    MESSAGE_ varchar(4000),
+	    FULL_MSG_ LONGBLOB,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-6">
+        <createTable tableName="ACT_HI_COMMENT">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+            <column name="TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID_" type="VARCHAR(255)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="ACTION_" type="VARCHAR(255)"/>
+            <column name="MESSAGE_" type="VARCHAR(4000)"/>
+            <column name="FULL_MSG_" type="LONGBLOB"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_ATTACHMENT (
+	    ID_ varchar(64) not null,
+	    REV_ integer,
+	    USER_ID_ varchar(255),
+	    NAME_ varchar(255),
+	    DESCRIPTION_ varchar(4000),
+	    TYPE_ varchar(255),
+	    TASK_ID_ varchar(64),
+	    PROC_INST_ID_ varchar(64),
+	    URL_ varchar(4000),
+	    CONTENT_ID_ varchar(64),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-7">
+        <createTable tableName="ACT_HI_ATTACHMENT">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="USER_ID_" type="VARCHAR(255)"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION_" type="VARCHAR(4000)"/>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="URL_" type="VARCHAR(4000)"/>
+            <column name="CONTENT_ID_" type="VARCHAR(64)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_OP_LOG (
+	    ID_ varchar(64) not null,
+	    PROC_DEF_ID_ varchar(64),
+	    PROC_INST_ID_ varchar(64),
+	    EXECUTION_ID_ varchar(64),
+	    TASK_ID_ varchar(64),
+	    USER_ID_ varchar(255),
+	    TIMESTAMP_ timestamp not null,
+	    OPERATION_TYPE_ varchar(64),
+	    OPERATION_ID_ varchar(64),
+	    ENTITY_TYPE_ varchar(30),
+	    PROPERTY_ varchar(64),
+	    ORG_VALUE_ varchar(4000),
+	    NEW_VALUE_ varchar(4000),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-8">
+        <createTable tableName="ACT_HI_OP_LOG">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="USER_ID_" type="VARCHAR(255)"/>
+            <column name="TIMESTAMP_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPERATION_TYPE_" type="VARCHAR(64)"/>
+            <column name="OPERATION_ID_" type="VARCHAR(64)"/>
+            <column name="ENTITY_TYPE_" type="VARCHAR(30)"/>
+            <column name="PROPERTY_" type="VARCHAR(64)"/>
+            <column name="ORG_VALUE_" type="VARCHAR(4000)"/>
+            <column name="NEW_VALUE_" type="VARCHAR(4000)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_INCIDENT (
+	  ID_ varchar(64) not null,
+	  PROC_DEF_ID_ varchar(64),
+	  PROC_INST_ID_ varchar(64),
+	  EXECUTION_ID_ varchar(64),
+	  CREATE_TIME_ timestamp not null,
+	  END_TIME_ timestamp null,
+	  INCIDENT_MSG_ varchar(4000),
+	  INCIDENT_TYPE_ varchar(255) not null,
+	  ACTIVITY_ID_ varchar(255),
+	  CAUSE_INCIDENT_ID_ varchar(64),
+	  ROOT_CAUSE_INCIDENT_ID_ varchar(64),
+	  CONFIGURATION_ varchar(255),
+	  INCIDENT_STATE_ integer,
+	  primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-9">
+        <createTable tableName="ACT_HI_INCIDENT">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="CREATE_TIME_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME_" type="TIMESTAMP"/>
+            <column name="INCIDENT_MSG_" type="VARCHAR(4000)"/>
+            <column name="INCIDENT_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVITY_ID_" type="VARCHAR(255)"/>
+            <column name="CAUSE_INCIDENT_ID_" type="VARCHAR(64)"/>
+            <column name="ROOT_CAUSE_INCIDENT_ID_" type="VARCHAR(64)"/>
+            <column name="CONFIGURATION_" type="VARCHAR(255)"/>
+            <column name="INCIDENT_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_PRO_INST_END on ACT_HI_PROCINST(END_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-10">
+        <createIndex indexName="ACT_IDX_HI_PRO_INST_END" tableName="ACT_HI_PROCINST">
+            <column name="END_TIME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_PRO_I_BUSKEY on ACT_HI_PROCINST(BUSINESS_KEY_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-11">
+        <createIndex indexName="ACT_IDX_HI_PRO_I_BUSKEY" tableName="ACT_HI_PROCINST">
+            <column name="BUSINESS_KEY_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_ACT_INST_START on ACT_HI_ACTINST(START_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-12">
+        <createIndex indexName="ACT_IDX_HI_ACT_INST_START" tableName="ACT_HI_ACTINST">
+            <column name="START_TIME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_ACT_INST_END on ACT_HI_ACTINST(END_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-13">
+        <createIndex indexName="ACT_IDX_HI_ACT_INST_END" tableName="ACT_HI_ACTINST">
+            <column name="END_TIME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_ACT_INST_COMP on ACT_HI_ACTINST(EXECUTION_ID_, ACT_ID_, END_TIME_, ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-14">
+        <createIndex indexName="ACT_IDX_HI_ACT_INST_COMP" tableName="ACT_HI_ACTINST">
+            <column name="EXECUTION_ID_"/>
+            <column name="ACT_ID_"/>
+            <column name="END_TIME_"/>
+            <column name="ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_PROC_INST on ACT_HI_DETAIL(PROC_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-15">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_PROC_INST" tableName="ACT_HI_DETAIL">
+            <column name="PROC_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_ACT_INST on ACT_HI_DETAIL(ACT_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-16">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_ACT_INST" tableName="ACT_HI_DETAIL">
+            <column name="ACT_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_TIME on ACT_HI_DETAIL(TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-17">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_TIME" tableName="ACT_HI_DETAIL">
+            <column name="TIME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_NAME on ACT_HI_DETAIL(NAME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-18">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_NAME" tableName="ACT_HI_DETAIL">
+            <column name="NAME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!-- 
+	create index ACT_IDX_HI_DETAIL_TASK_ID on ACT_HI_DETAIL(TASK_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-19">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_TASK_ID" tableName="ACT_HI_DETAIL">
+            <column name="TASK_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!-- 
+	create index ACT_IDX_HI_PROCVAR_PROC_INST on ACT_HI_VARINST(PROC_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-20">
+        <createIndex indexName="ACT_IDX_HI_PROCVAR_PROC_INST" tableName="ACT_HI_VARINST">
+            <column name="PROC_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!-- 
+	create index ACT_IDX_HI_PROCVAR_NAME_TYPE on ACT_HI_VARINST(NAME_, VAR_TYPE_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-21">
+        <createIndex indexName="ACT_IDX_HI_PROCVAR_NAME_TYPE" tableName="ACT_HI_VARINST">
+            <column name="NAME_"/>
+            <column name="VAR_TYPE_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!-- 
+	create index ACT_IDX_HI_ACT_INST_PROCINST on ACT_HI_ACTINST(PROC_INST_ID_, ACT_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-history-22">
+        <createIndex indexName="ACT_IDX_HI_ACT_INST_PROCINST" tableName="ACT_HI_ACTINST">
+            <column name="PROC_INST_ID_"/>
+            <column name="ACT_ID_"/>
+        </createIndex>
+    </changeSet>
+
+
+
+
+
+	<!-- 
+	create table ACT_ID_GROUP (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    NAME_ varchar(255),
+	    TYPE_ varchar(255),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-1">
+        <createTable tableName="ACT_ID_GROUP">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!-- 
+	create table ACT_ID_MEMBERSHIP (
+	    USER_ID_ varchar(64),
+	    GROUP_ID_ varchar(64),
+	    primary key (USER_ID_, GROUP_ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-2">
+        <createTable tableName="ACT_ID_MEMBERSHIP">
+            <column name="USER_ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="GROUP_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+    
+	<!-- 
+	create table ACT_ID_USER (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    FIRST_ varchar(255),
+	    LAST_ varchar(255),
+	    EMAIL_ varchar(255),
+	    PWD_ varchar(255),
+	    PICTURE_ID_ varchar(64),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-3">
+        <createTable tableName="ACT_ID_USER">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="FIRST_" type="VARCHAR(255)"/>
+            <column name="LAST_" type="VARCHAR(255)"/>
+            <column name="EMAIL_" type="VARCHAR(255)"/>
+            <column name="PWD_" type="VARCHAR(255)"/>
+            <column name="PICTURE_ID_" type="VARCHAR(64)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!-- 
+	create table ACT_ID_INFO (
+	    ID_ varchar(64),
+	    REV_ integer,
+	    USER_ID_ varchar(64),
+	    TYPE_ varchar(64),
+	    KEY_ varchar(255),
+	    VALUE_ varchar(255),
+	    PASSWORD_ LONGBLOB,
+	    PARENT_ID_ varchar(255),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-4">
+        <createTable tableName="ACT_ID_INFO">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="USER_ID_" type="VARCHAR(64)"/>
+            <column name="TYPE_" type="VARCHAR(64)"/>
+            <column name="KEY_" type="VARCHAR(255)"/>
+            <column name="VALUE_" type="VARCHAR(255)"/>
+            <column name="PASSWORD_" type="LONGBLOB"/>
+            <column name="PARENT_ID_" type="VARCHAR(255)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>
+    </changeSet>
+	
+	<!-- 
+	alter table ACT_ID_MEMBERSHIP 
+	    add constraint ACT_FK_MEMB_GROUP 
+	    foreign key (GROUP_ID_) 
+	    references ACT_ID_GROUP (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-5">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_ID_MEMBERSHIP" 
+        	constraintName="ACT_FK_MEMB_GROUP" 
+        	baseColumnNames="GROUP_ID_" 
+        	referencedTableName="ACT_ID_GROUP"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!-- 
+	alter table ACT_ID_MEMBERSHIP 
+	    add constraint ACT_FK_MEMB_USER 
+	    foreign key (USER_ID_) 
+	    references ACT_ID_USER (ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-identity-6">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_ID_MEMBERSHIP" 
+        	constraintName="ACT_FK_MEMB_USER"
+        	baseColumnNames="USER_ID_" 
+        	referencedTableName="ACT_ID_USER"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+</databaseChangeLog>

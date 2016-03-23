@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!--
+	- add deployment.lock row to property table -
+	INSERT INTO ACT_GE_PROPERTY
+	  VALUES ('deployment.lock', '0', 1);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-1">
+    	<insert tableName="ACT_GE_PROPERTY">
+    		<column name="NAME_" value="deployment.lock"/>
+    		<column name="VALUE_" value="0"/>
+    		<column name="REV_" value="1"/>
+    	</insert>
+    </changeSet>
+	
+	<!--
+	- add revision column to incident table -
+	ALTER TABLE ACT_RU_INCIDENT
+	  ADD REV_ INTEGER;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-2">
+        <addColumn tableName="ACT_RU_INCIDENT">
+            <column name="REV_" type="INT"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	- set initial incident revision to 1 -
+	UPDATE
+	  ACT_RU_INCIDENT
+	SET
+	  REV_ = 1;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-3">
+    	<update tableName="ACT_RU_INCIDENT">
+    		<column name="REV_" value="1"/>
+	   		<where>REV_ is null</where>
+    	</update>
+    </changeSet>
+    
+	<!--
+	- set incident revision column to not null -
+	ALTER TABLE ACT_RU_INCIDENT
+	  MODIFY REV_ INTEGER NOT NULL;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-4">
+    	<addNotNullConstraint tableName="ACT_RU_INCIDENT" columnName="REV_" columnDataType="INT"/>
+    </changeSet>
+	
+	<!--
+	case management
+	-->
+	
+	<!--
+	ALTER TABLE ACT_RU_VARIABLE
+	  ADD CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-5">
+        <addColumn tableName="ACT_RU_VARIABLE">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_VARIABLE
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-6">
+        <addColumn tableName="ACT_RU_VARIABLE">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_RU_TASK
+	  ADD CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-7">
+        <addColumn tableName="ACT_RU_TASK">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_RU_TASK
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-8">
+        <addColumn tableName="ACT_RU_TASK">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_TASK
+	  ADD CASE_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-9">
+        <addColumn tableName="ACT_RU_TASK">
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_RU_EXECUTION
+	  ADD SUPER_CASE_EXEC_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-10">
+        <addColumn tableName="ACT_RU_EXECUTION">
+            <column name="SUPER_CASE_EXEC_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_EXECUTION
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-11">
+        <addColumn tableName="ACT_RU_EXECUTION">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-12">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-13">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD CASE_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-14">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-15">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_PROCINST
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-16">
+        <addColumn tableName="ACT_HI_PROCINST">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_TASKINST
+	  ADD CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-17">
+        <addColumn tableName="ACT_HI_TASKINST">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_TASKINST
+	  ADD CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-18">
+        <addColumn tableName="ACT_HI_TASKINST">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	ALTER TABLE ACT_HI_TASKINST
+	  ADD CASE_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-19">
+        <addColumn tableName="ACT_HI_TASKINST">
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	- create case definition table -
+	create table ACT_RE_CASE_DEF (
+	    ID_ varchar(64) not null,
+	    REV_ integer,
+	    CATEGORY_ varchar(255),
+	    NAME_ varchar(255),
+	    KEY_ varchar(255) not null,
+	    VERSION_ integer not null,
+	    DEPLOYMENT_ID_ varchar(64),
+	    RESOURCE_NAME_ varchar(4000),
+	    DGRM_RESOURCE_NAME_ varchar(4000),
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-3-20">
+        <createTable tableName="ACT_RE_CASE_DEF">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="CATEGORY_" type="VARCHAR(255)"/>
+            <column name="NAME_" type="VARCHAR(255)"/>
+            <column name="KEY_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPLOYMENT_ID_" type="VARCHAR(64)"/>
+            <column name="RESOURCE_NAME_" type="VARCHAR(4000)"/>
+            <column name="DGRM_RESOURCE_NAME_" type="VARCHAR(4000)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	- create case execution table -
+	create table ACT_RU_CASE_EXECUTION (
+	    ID_ varchar(64) NOT NULL,
+	    REV_ integer,
+	    CASE_INST_ID_ varchar(64),
+	    SUPER_CASE_EXEC_ varchar(64),
+	    BUSINESS_KEY_ varchar(255),
+	    PARENT_ID_ varchar(64),
+	    CASE_DEF_ID_ varchar(64),
+	    ACT_ID_ varchar(255),
+	    PREV_STATE_ integer,
+	    CURRENT_STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-21">
+        <createTable tableName="ACT_RU_CASE_EXECUTION">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+            <column name="SUPER_CASE_EXEC_" type="VARCHAR(64)"/>
+            <column name="BUSINESS_KEY_" type="VARCHAR(255)"/>
+            <column name="PARENT_ID_" type="VARCHAR(64)"/>
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="ACT_ID_" type="VARCHAR(255)"/>
+            <column name="PREV_STATE_" type="INT"/>
+            <column name="CURRENT_STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	- create case sentry part table -
+	create table ACT_RU_CASE_SENTRY_PART (
+	    ID_ varchar(64) NOT NULL,
+	    REV_ integer,
+	    CASE_INST_ID_ varchar(64),
+	    CASE_EXEC_ID_ varchar(64),
+	    SENTRY_ID_ varchar(255),
+	    TYPE_ varchar(255),
+	    SOURCE_CASE_EXEC_ID_ varchar(64),
+	    STANDARD_EVENT_ varchar(255),
+	    SATISFIED_ boolean,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-22">
+        <createTable tableName="ACT_RU_CASE_SENTRY_PART">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT"/>
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+            <column name="CASE_EXEC_ID_" type="VARCHAR(64)"/>
+            <column name="SENTRY_ID_" type="VARCHAR(255)"/>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+            <column name="SOURCE_CASE_EXEC_ID_" type="VARCHAR(64)"/>
+            <column name="STANDARD_EVENT_" type="VARCHAR(255)"/>
+            <column name="SATISFIED_" type="BIT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	- create unique constraint on ACT_RE_CASE_DEF -
+	alter table ACT_RE_CASE_DEF
+	    add constraint ACT_UNIQ_CASE_DEF
+	    unique (KEY_,VERSION_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-23">
+        <addUniqueConstraint columnNames="KEY_, VERSION_" constraintName="ACT_UNIQ_CASE_DEF" tableName="ACT_RE_CASE_DEF"/>
+    </changeSet>
+	
+	<!--
+	- create index on business key -
+	create index ACT_IDX_CASE_EXEC_BUSKEY on ACT_RU_CASE_EXECUTION(BUSINESS_KEY_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-24">
+        <createIndex indexName="ACT_IDX_CASE_EXEC_BUSKEY" tableName="ACT_RU_CASE_EXECUTION">
+            <column name="BUSINESS_KEY_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	- create foreign key constraints on ACT_RU_CASE_EXECUTION -
+	alter table ACT_RU_CASE_EXECUTION
+	    add constraint ACT_FK_CASE_EXE_CASE_INST
+	    foreign key (CASE_INST_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_) on delete cascade on update cascade;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-25">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_CASE_EXECUTION" 
+        	constraintName="ACT_FK_CASE_EXE_CASE_INST"
+        	baseColumnNames="CASE_INST_ID_" 
+        	referencedTableName="ACT_RU_CASE_EXECUTION" 
+        	referencedColumnNames="ID_" 
+        	onDelete="CASCADE" onUpdate="CASCADE"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_CASE_EXECUTION
+	    add constraint ACT_FK_CASE_EXE_PARENT
+	    foreign key (PARENT_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-26">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_CASE_EXECUTION"
+        	constraintName="ACT_FK_CASE_EXE_PARENT"
+        	baseColumnNames="PARENT_ID_"
+        	referencedTableName="ACT_RU_CASE_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_CASE_EXECUTION
+	    add constraint ACT_FK_CASE_EXE_CASE_DEF
+	    foreign key (CASE_DEF_ID_)
+	    references ACT_RE_CASE_DEF(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-27">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_CASE_EXECUTION" 
+        	constraintName="ACT_FK_CASE_EXE_CASE_DEF" 
+        	baseColumnNames="CASE_DEF_ID_" 
+        	referencedTableName="ACT_RE_CASE_DEF"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!--
+	- create foreign key constraints on ACT_RU_VARIABLE -
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_FK_VAR_CASE_EXE
+	    foreign key (CASE_EXECUTION_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-28">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_VARIABLE" 
+        	constraintName="ACT_FK_VAR_CASE_EXE"
+        	baseColumnNames="CASE_EXECUTION_ID_" 
+        	referencedTableName="ACT_RU_CASE_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_VARIABLE
+	    add constraint ACT_FK_VAR_CASE_INST
+	    foreign key (CASE_INST_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-29">
+        <addForeignKeyConstraint
+       		baseTableName="ACT_RU_VARIABLE" 
+       		constraintName="ACT_FK_VAR_CASE_INST" 
+        	baseColumnNames="CASE_INST_ID_" 
+       		referencedTableName="ACT_RU_CASE_EXECUTION"
+       		referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!--
+	- create foreign key constraints on ACT_RU_TASK -
+	alter table ACT_RU_TASK
+	    add constraint ACT_FK_TASK_CASE_EXE
+	    foreign key (CASE_EXECUTION_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-30">
+        <addForeignKeyConstraint
+       		baseTableName="ACT_RU_TASK"
+       		constraintName="ACT_FK_TASK_CASE_EXE" 
+        	baseColumnNames="CASE_EXECUTION_ID_"
+       		referencedTableName="ACT_RU_CASE_EXECUTION"
+       		referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_TASK
+	  add constraint ACT_FK_TASK_CASE_DEF
+	  foreign key (CASE_DEF_ID_)
+	  references ACT_RE_CASE_DEF(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-31">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_TASK"
+        	constraintName="ACT_FK_TASK_CASE_DEF"
+        	baseColumnNames="CASE_DEF_ID_"
+        	referencedTableName="ACT_RE_CASE_DEF"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	- create foreign key constraints on ACT_RU_CASE_SENTRY_PART -
+	alter table ACT_RU_CASE_SENTRY_PART
+	    add constraint ACT_FK_CASE_SENTRY_CASE_INST
+	    foreign key (CASE_INST_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-32">
+        <addForeignKeyConstraint 
+       		baseTableName="ACT_RU_CASE_SENTRY_PART"
+       		constraintName="ACT_FK_CASE_SENTRY_CASE_INST"
+        	baseColumnNames="CASE_INST_ID_"
+       		referencedTableName="ACT_RU_CASE_EXECUTION"
+       		referencedColumnNames="ID_"/>
+    </changeSet>
+    
+	<!--
+	alter table ACT_RU_CASE_SENTRY_PART
+	    add constraint ACT_FK_CASE_SENTRY_CASE_EXEC
+	    foreign key (CASE_EXEC_ID_)
+	    references ACT_RU_CASE_EXECUTION(ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-33">
+        <addForeignKeyConstraint
+        	baseColumnNames="CASE_EXEC_ID_"
+        	baseTableName="ACT_RU_CASE_SENTRY_PART"
+        	constraintName="ACT_FK_CASE_SENTRY_CASE_EXEC"
+        	referencedTableName="ACT_RU_CASE_EXECUTION"
+        	referencedColumnNames="ID_"/>
+    </changeSet>
+	
+	<!--
+	- create filter table
+	create table ACT_RU_FILTER (
+	  ID_ varchar(64) not null,
+	  REV_ integer not null,
+	  RESOURCE_TYPE_ varchar(255) not null,
+	  NAME_ varchar(255) not null,
+	  OWNER_ varchar(255),
+	  QUERY_ LONGTEXT not null,
+	  PROPERTIES_ LONGTEXT,
+	  primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-34">
+        <createTable tableName="ACT_RU_FILTER">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="REV_" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_TYPE_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OWNER_" type="VARCHAR(255)"/>
+            <column name="QUERY_" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROPERTIES_" type="LONGTEXT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	- add index to improve job executor performance
+	create index ACT_IDX_JOB_PROCINST on ACT_RU_JOB(PROCESS_INSTANCE_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-35">
+        <createIndex indexName="ACT_IDX_JOB_PROCINST" tableName="ACT_RU_JOB">
+            <column name="PROCESS_INSTANCE_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	- create historic case instance/activity table and indexes -
+	create table ACT_HI_CASEINST (
+	    ID_ varchar(64) not null,
+	    CASE_INST_ID_ varchar(64) not null,
+	    BUSINESS_KEY_ varchar(255),
+	    CASE_DEF_ID_ varchar(64) not null,
+	    CREATE_TIME_ datetime not null,
+	    CLOSE_TIME_ datetime,
+	    DURATION_ bigint,
+	    STATE_ integer,
+	    CREATE_USER_ID_ varchar(255),
+	    SUPER_CASE_INSTANCE_ID_ varchar(64),
+	    primary key (ID_),
+	    unique (CASE_INST_ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-36">
+        <createTable tableName="ACT_HI_CASEINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="CASE_INST_ID_" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="BUSINESS_KEY_" type="VARCHAR(255)"/>
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATE_TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLOSE_TIME_" type="datetime"/>
+            <column name="DURATION_" type="BIGINT"/>
+            <column name="STATE_" type="INT"/>
+            <column name="CREATE_USER_ID_" type="VARCHAR(255)"/>
+            <column name="SUPER_CASE_INSTANCE_ID_" type="VARCHAR(64)"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_CASEACTINST (
+	    ID_ varchar(64) not null,
+	    PARENT_ACT_INST_ID_ varchar(64),
+	    CASE_DEF_ID_ varchar(64) not null,
+	    CASE_INST_ID_ varchar(64) not null,
+	    CASE_ACT_ID_ varchar(255) not null,
+	    TASK_ID_ varchar(64),
+	    CALL_PROC_INST_ID_ varchar(64),
+	    CALL_CASE_INST_ID_ varchar(64),
+	    CASE_ACT_NAME_ varchar(255),
+	    CASE_ACT_TYPE_ varchar(255),
+	    CREATE_TIME_ datetime not null,
+	    END_TIME_ datetime,
+	    DURATION_ bigint,
+	    STATE_ integer,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-37">
+        <createTable tableName="ACT_HI_CASEACTINST">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="PARENT_ACT_INST_ID_" type="VARCHAR(64)"/>
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CASE_INST_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CASE_ACT_ID_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TASK_ID_" type="VARCHAR(64)"/>
+            <column name="CALL_PROC_INST_ID_" type="VARCHAR(64)"/>
+            <column name="CALL_CASE_INST_ID_" type="VARCHAR(64)"/>
+            <column name="CASE_ACT_NAME_" type="VARCHAR(255)"/>
+            <column name="CASE_ACT_TYPE_" type="VARCHAR(255)"/>
+            <column name="CREATE_TIME_" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME_" type="datetime"/>
+            <column name="DURATION_" type="BIGINT"/>
+            <column name="STATE_" type="INT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_CAS_I_CLOSE on ACT_HI_CASEINST(CLOSE_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-38">
+        <createIndex indexName="ACT_IDX_HI_CAS_I_CLOSE" tableName="ACT_HI_CASEINST">
+            <column name="CLOSE_TIME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_CAS_I_BUSKEY on ACT_HI_CASEINST(BUSINESS_KEY_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-39">
+        <createIndex indexName="ACT_IDX_HI_CAS_I_BUSKEY" tableName="ACT_HI_CASEINST">
+            <column name="BUSINESS_KEY_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_CAS_A_I_CREATE on ACT_HI_CASEACTINST(CREATE_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-40">
+        <createIndex indexName="ACT_IDX_HI_CAS_A_I_CREATE" tableName="ACT_HI_CASEACTINST">
+            <column name="CREATE_TIME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_CAS_A_I_END on ACT_HI_CASEACTINST(END_TIME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-41">
+        <createIndex indexName="ACT_IDX_HI_CAS_A_I_END" tableName="ACT_HI_CASEACTINST">
+            <column name="END_TIME_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_CAS_A_I_COMP on ACT_HI_CASEACTINST(CASE_ACT_ID_, END_TIME_, ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-42">
+        <createIndex indexName="ACT_IDX_HI_CAS_A_I_COMP" tableName="ACT_HI_CASEACTINST">
+            <column name="CASE_ACT_ID_"/>
+            <column name="END_TIME_"/>
+            <column name="ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_CAS_A_I_CASEINST on ACT_HI_CASEACTINST(CASE_INST_ID_, CASE_ACT_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-43">
+        <createIndex indexName="ACT_IDX_HI_CAS_A_I_CASEINST" tableName="ACT_HI_CASEACTINST">
+            <column name="CASE_INST_ID_"/>
+            <column name="CASE_ACT_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_TASK_ASSIGNEE on ACT_RU_TASK(ASSIGNEE_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-44">
+        <createIndex indexName="ACT_IDX_TASK_ASSIGNEE" tableName="ACT_RU_TASK">
+            <column name="ASSIGNEE_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	- add case instance/execution to historic variable instance and detail -
+	alter table ACT_HI_VARINST
+	  add CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-45">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	alter table ACT_HI_VARINST
+	  add CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-46">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	alter table ACT_HI_DETAIL
+	  add CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-47">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	alter table ACT_HI_DETAIL
+	  add CASE_EXECUTION_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-48">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="CASE_EXECUTION_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_CASE_INST on ACT_HI_DETAIL(CASE_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-49">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_CASE_INST" tableName="ACT_HI_DETAIL">
+            <column name="CASE_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_DETAIL_CASE_EXEC on ACT_HI_DETAIL(CASE_EXECUTION_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-50">
+        <createIndex indexName="ACT_IDX_HI_DETAIL_CASE_EXEC" tableName="ACT_HI_DETAIL">
+            <column name="CASE_EXECUTION_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+	<!--
+	create index ACT_IDX_HI_CASEVAR_CASE_INST on ACT_HI_VARINST(CASE_INST_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.1-to-7.2-51">
+        <createIndex indexName="ACT_IDX_HI_CASEVAR_CASE_INST" tableName="ACT_HI_VARINST">
+            <column name="CASE_INST_ID_"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!--
+	- case management -
+	-->
+	
+	<!--
+	ALTER TABLE ACT_RU_CASE_EXECUTION
+	  ADD SUPER_EXEC_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-1">
+        <addColumn tableName="ACT_RU_CASE_EXECUTION">
+            <column name="SUPER_EXEC_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_CASE_EXECUTION
+	  ADD REQUIRED_ boolean;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-2">
+        <addColumn tableName="ACT_RU_CASE_EXECUTION">
+            <column name="REQUIRED_" type="BIT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	- history -
+	-->
+	
+	<!--
+	ALTER TABLE ACT_HI_ACTINST
+	  ADD CALL_CASE_INST_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-3">
+        <addColumn tableName="ACT_HI_ACTINST">
+            <column name="CALL_CASE_INST_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_PROCINST
+	  ADD SUPER_CASE_INSTANCE_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-4">
+        <addColumn tableName="ACT_HI_PROCINST">
+            <column name="SUPER_CASE_INSTANCE_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_CASEINST
+	  ADD SUPER_PROCESS_INSTANCE_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-5">
+        <addColumn tableName="ACT_HI_CASEINST">
+            <column name="SUPER_PROCESS_INSTANCE_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_CASEACTINST
+	  ADD REQUIRED_ boolean;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-6">
+        <addColumn tableName="ACT_HI_CASEACTINST">
+            <column name="REQUIRED_" type="BIT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD JOB_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-7">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="JOB_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_OP_LOG
+	  ADD JOB_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-8">
+        <addColumn tableName="ACT_HI_OP_LOG">
+            <column name="JOB_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	create table ACT_HI_JOB_LOG (
+	    ID_ varchar(64) not null,
+	    TIMESTAMP_ timestamp not null,
+	    JOB_ID_ varchar(64) not null,
+	    JOB_DUEDATE_ timestamp NULL,
+	    JOB_RETRIES_ integer,
+	    JOB_EXCEPTION_MSG_ varchar(4000),
+	    JOB_EXCEPTION_STACK_ID_ varchar(64),
+	    JOB_STATE_ integer,
+	    JOB_DEF_ID_ varchar(64),
+	    JOB_DEF_TYPE_ varchar(255),
+	    JOB_DEF_CONFIGURATION_ varchar(255),
+	    ACT_ID_ varchar(64),
+	    EXECUTION_ID_ varchar(64),
+	    PROCESS_INSTANCE_ID_ varchar(64),
+	    PROCESS_DEF_ID_ varchar(64),
+	    PROCESS_DEF_KEY_ varchar(255),
+	    DEPLOYMENT_ID_ varchar(64),
+	    SEQUENCE_COUNTER_ bigint,
+	    primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-9">
+        <createTable tableName="ACT_HI_JOB_LOG">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="TIMESTAMP_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_ID_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_DUEDATE_" type="TIMESTAMP"/>
+            <column name="JOB_RETRIES_" type="INT"/>
+            <column name="JOB_EXCEPTION_MSG_" type="VARCHAR(4000)"/>
+            <column name="JOB_EXCEPTION_STACK_ID_" type="VARCHAR(64)"/>
+            <column name="JOB_STATE_" type="INT"/>
+            <column name="JOB_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="JOB_DEF_TYPE_" type="VARCHAR(255)"/>
+            <column name="JOB_DEF_CONFIGURATION_" type="VARCHAR(255)"/>
+            <column name="ACT_ID_" type="VARCHAR(64)"/>
+            <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_INSTANCE_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_DEF_ID_" type="VARCHAR(64)"/>
+            <column name="PROCESS_DEF_KEY_" type="VARCHAR(255)"/>
+            <column name="DEPLOYMENT_ID_" type="VARCHAR(64)"/>
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_JOB_LOG_PROCINST on ACT_HI_JOB_LOG(PROCESS_INSTANCE_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-10">
+        <createIndex indexName="ACT_IDX_HI_JOB_LOG_PROCINST" tableName="ACT_HI_JOB_LOG">
+            <column name="PROCESS_INSTANCE_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_HI_JOB_LOG_PROCDEF on ACT_HI_JOB_LOG(PROCESS_DEF_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-11">
+        <createIndex indexName="ACT_IDX_HI_JOB_LOG_PROCDEF" tableName="ACT_HI_JOB_LOG">
+            <column name="PROCESS_DEF_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+	- history: add columns PROC_DEF_KEY_, PROC_DEF_ID_, CASE_DEF_KEY_, CASE_DEF_ID_ -
+	-->
+	
+	<!--
+	ALTER TABLE ACT_HI_PROCINST
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-12">
+        <addColumn tableName="ACT_HI_PROCINST">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_ACTINST
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-13">
+        <addColumn tableName="ACT_HI_ACTINST">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_TASKINST
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-14">
+        <addColumn tableName="ACT_HI_TASKINST">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_TASKINST
+	  ADD CASE_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-15">
+        <addColumn tableName="ACT_HI_TASKINST">
+            <column name="CASE_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_VARINST
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-16">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_VARINST
+	  ADD PROC_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-17">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_VARINST
+	  ADD CASE_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-18">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="CASE_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_VARINST
+	  ADD CASE_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-19">
+        <addColumn tableName="ACT_HI_VARINST">
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_DETAIL
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-20">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_DETAIL
+	  ADD PROC_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-21">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="PROC_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_DETAIL
+	  ADD CASE_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-22">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="CASE_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_DETAIL
+	  ADD CASE_DEF_ID_ varchar(64);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-23">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="CASE_DEF_ID_" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_INCIDENT
+	  ADD PROC_DEF_KEY_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-24">
+        <addColumn tableName="ACT_HI_INCIDENT">
+            <column name="PROC_DEF_KEY_" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	- sequence counter
+	-->
+	
+	<!--
+	ALTER TABLE ACT_RU_EXECUTION
+	  ADD SEQUENCE_COUNTER_ bigint;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-25">
+        <addColumn tableName="ACT_RU_EXECUTION">
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_ACTINST
+	  ADD SEQUENCE_COUNTER_ bigint;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-26">
+        <addColumn tableName="ACT_HI_ACTINST">
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_VARIABLE
+	  ADD SEQUENCE_COUNTER_ bigint;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-27">
+        <addColumn tableName="ACT_RU_VARIABLE">
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_HI_DETAIL
+	  ADD SEQUENCE_COUNTER_ bigint;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-28">
+        <addColumn tableName="ACT_HI_DETAIL">
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	ALTER TABLE ACT_RU_JOB
+	  ADD SEQUENCE_COUNTER_ bigint;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-29">
+        <addColumn tableName="ACT_RU_JOB">
+            <column name="SEQUENCE_COUNTER_" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	- AUTHORIZATION -
+	-->
+	
+	<!--
+	- add grant authorizations for group camunda-admin:
+	
+	INSERT INTO
+	  ACT_RU_AUTHORIZATION (ID_, TYPE_, GROUP_ID_, RESOURCE_TYPE_, RESOURCE_ID_, PERMS_, REV_)
+	VALUES
+	  ('camunda-admin-grant-process-definition', 1, 'camunda-admin', 6, '*', 2147483647, 1),
+	  ('camunda-admin-grant-task', 1, 'camunda-admin', 7, '*', 2147483647, 1),
+	  ('camunda-admin-grant-process-instance', 1, 'camunda-admin', 8, '*', 2147483647, 1),
+	  ('camunda-admin-grant-deployment', 1, 'camunda-admin', 9, '*', 2147483647, 1);
+	-->
+	<changeSet author="generated" id="CAMUNDA-7.2-to-7.3-30">
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="camunda-admin-grant-process-definition"/>
+			<column name="TYPE_" value="1"/>
+			<column name="GROUP_ID_" value="camunda-admin"/>
+			<column name="RESOURCE_TYPE_" value="6"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="camunda-admin-grant-task"/>
+			<column name="TYPE_" value="1"/>
+			<column name="GROUP_ID_" value="camunda-admin"/>
+			<column name="RESOURCE_TYPE_" value="7"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="camunda-admin-grant-process-instance"/>
+			<column name="TYPE_" value="1"/>
+			<column name="GROUP_ID_" value="camunda-admin"/>
+			<column name="RESOURCE_TYPE_" value="8"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="camunda-admin-grant-deployment"/>
+			<column name="TYPE_" value="1"/>
+			<column name="GROUP_ID_" value="camunda-admin"/>
+			<column name="RESOURCE_TYPE_" value="9"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+	</changeSet>
+	
+	<!--
+	- add global grant authorizations for new authorization resources:
+	- DEPLOYMENT
+	- PROCESS_DEFINITION
+	- PROCESS_INSTANCE
+	- TASK
+	- with ALL permissions
+	-->
+	
+	<!--
+	INSERT INTO
+	  ACT_RU_AUTHORIZATION (ID_, TYPE_, USER_ID_, RESOURCE_TYPE_, RESOURCE_ID_, PERMS_, REV_)
+	VALUES
+	  ('global-grant-process-definition', 0, '*', 6, '*', 2147483647, 1),
+	  ('global-grant-task', 0, '*', 7, '*', 2147483647, 1),
+	  ('global-grant-process-instance', 0, '*', 8, '*', 2147483647, 1),
+	  ('global-grant-deployment', 0, '*', 9, '*', 2147483647, 1);
+	-->
+	<changeSet author="generated" id="CAMUNDA-7.2-to-7.3-31">
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="global-grant-process-definition"/>
+			<column name="TYPE_" value="0"/>
+			<column name="USER_ID_" value="*"/>
+			<column name="RESOURCE_TYPE_" value="6"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="global-grant-task"/>
+			<column name="TYPE_" value="0"/>
+			<column name="USER_ID_" value="*"/>
+			<column name="RESOURCE_TYPE_" value="7"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="global-grant-process-instance"/>
+			<column name="TYPE_" value="0"/>
+			<column name="USER_ID_" value="*"/>
+			<column name="RESOURCE_TYPE_" value="8"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+		<insert tableName="ACT_RU_AUTHORIZATION">
+			<column name="ID_" value="global-grant-deployment"/>
+			<column name="TYPE_" value="0"/>
+			<column name="USER_ID_" value="*"/>
+			<column name="RESOURCE_TYPE_" value="9"/>
+			<column name="RESOURCE_ID_" value="*"/>
+			<column name="PERMS_" value="2147483647"/>
+			<column name="REV_" value="1"/>
+		</insert>
+	</changeSet>
+	
+	<!--
+	- variables -
+	-->
+	
+	<!--
+	ALTER TABLE ACT_RU_VARIABLE
+	  ADD IS_CONCURRENT_LOCAL_ TINYINT;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-32">
+        <addColumn tableName="ACT_RU_VARIABLE">
+            <column name="IS_CONCURRENT_LOCAL_" type="TINYINT"/>
+        </addColumn>
+    </changeSet>
+	
+	<!--
+	- metrics -
+	-->
+	
+	<!--
+	create table ACT_RU_METER_LOG (
+	  ID_ varchar(64) not null,
+	  NAME_ varchar(64) not null,
+	  VALUE_ bigint,
+	  TIMESTAMP_ timestamp not null,
+	  primary key (ID_)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-33">
+        <createTable tableName="ACT_RU_METER_LOG">
+            <column name="ID_" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME_" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE_" type="BIGINT"/>
+            <column name="TIMESTAMP_" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
+    </changeSet>
+	
+	<!--
+	create index ACT_IDX_METER_LOG on ACT_RU_METER_LOG(NAME_,TIMESTAMP_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-to-7.3-34">
+        <createIndex indexName="ACT_IDX_METER_LOG" tableName="ACT_RU_METER_LOG">
+            <column name="NAME_"/>
+            <column name="TIMESTAMP_"/>
+        </createIndex>
+    </changeSet>
+	
+</databaseChangeLog>
