@@ -2,10 +2,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.camunda.bpm</groupId>
 	<artifactId>camunda-schemaupdate-liquibase</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:git@github.com:micw/camunda-schemaupdate-liquibase.git</connection>
-	  <tag>hotfix/1.0.x</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<build>
 		<pluginManagement>
