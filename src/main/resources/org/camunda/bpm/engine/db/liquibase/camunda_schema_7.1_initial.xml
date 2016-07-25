@@ -904,6 +904,22 @@
         	referencedTableName="ACT_RU_INCIDENT"
         	referencedColumnNames="ID_"/>
     </changeSet>
+    <!-- fix missing cascade from above -->
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-42a">
+        <dropForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_CAUSE"/>
+    </changeSet>
+    <changeSet author="generated" id="CAMUNDA-7.1-initial-engine-42b">
+        <addForeignKeyConstraint
+        	baseTableName="ACT_RU_INCIDENT"
+        	constraintName="ACT_FK_INC_CAUSE"
+        	baseColumnNames="CAUSE_INCIDENT_ID_"
+        	referencedTableName="ACT_RU_INCIDENT"
+        	referencedColumnNames="ID_"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE"/>
+    </changeSet>
     
 	<!--
 	alter table ACT_RU_INCIDENT
