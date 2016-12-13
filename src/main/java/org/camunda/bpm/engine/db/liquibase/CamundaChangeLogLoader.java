@@ -1,14 +1,18 @@
 package org.camunda.bpm.engine.db.liquibase;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import liquibase.changelog.ChangeSet;
 import liquibase.changelog.DatabaseChangeLog;
 import liquibase.exception.ChangeLogParseException;
 import liquibase.parser.core.xml.XMLChangeLogSAXParser;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.util.StreamUtil;
 
 public class CamundaChangeLogLoader
 {
@@ -18,7 +22,25 @@ public class CamundaChangeLogLoader
      */
     public static DatabaseChangeLog loadChangeLog() throws ChangeLogParseException
     {
-        return null;
+        String resourceName="META-INF/maven/org.camunda.bpm/camunda-engine/pom.properties";
+        InputStream in=CamundaChangeLogLoader.class.getClassLoader().getResourceAsStream(resourceName);
+        if (in==null) throw new IllegalStateException("Camunda not found on classpath. Missing resource is: "+resourceName);
+        CamundaVersion camundaVersion;
+        try
+        {
+            Properties props=new Properties();
+            props.load(in);
+            camundaVersion=CamundaVersion.parse(props.getProperty("version"));
+        }
+        catch (IOException ex)
+        {
+            throw new IllegalStateException("Camunda not found on classpath. Unable to load: "+resourceName,ex);
+        }
+        finally
+        {
+            StreamUtil.closeQuietly(in);
+        }
+        return loadChangeLog(camundaVersion);
     }
     
     protected static final String[] CAMUNDA_TABLES={
@@ -59,10 +81,10 @@ public class CamundaChangeLogLoader
         {
             if (versionString!=null) for (CamundaVersion version: values())
             {
-                if (versionString.equals(version)) return version;
-                if (versionString.startsWith(version+"-")) return version;
+                if (versionString.equals(version.versionString)) return version;
+                if (versionString.startsWith(version.versionString+"-")) return version;
             }
-            throw new IllegalArgumentException("Unsupported camnuda version: "+versionString);
+            throw new IllegalArgumentException("Unsupported camunda version: "+versionString);
         }
     }
 
