@@ -41,38 +41,64 @@ public class CamundaChangeLogLoader
         return Arrays.copyOf(CAMUNDA_TABLES,CAMUNDA_TABLES.length);
     }
     
-    /**
-     * Loads all change sets up to the given camunda version.
-     * Version must be in maven format:
-     * - 7.3.1
-     * - or 7.3.0-alpha1
-     * The 2nd is interpreted as 7.3.0 
-     */
+    public static enum CamundaVersion
+    {
+        v7_1_0("7.1.0"),
+        v7_2_0("7.2.0"),
+        v7_3_0("7.3.0"),
+        v7_4_0("7.4.0"),
+        ;
+        
+        protected final String versionString;
+        private CamundaVersion(String versionString)
+        {
+            this.versionString=versionString;
+        }
+        
+        public static CamundaVersion parse(String versionString)
+        {
+            if (versionString!=null) for (CamundaVersion version: values())
+            {
+                if (versionString.equals(version)) return version;
+                if (versionString.startsWith(version+"-")) return version;
+            }
+            throw new IllegalArgumentException("Unsupported camnuda version: "+versionString);
+        }
+    }
+
     public static DatabaseChangeLog loadChangeLog(String camundaVersion) throws ChangeLogParseException
     {
+        return loadChangeLog(CamundaVersion.parse(camundaVersion));
+    }
+    
+    /**
+     * Loads all change sets up to the given camunda version.
+     */
+    public static DatabaseChangeLog loadChangeLog(CamundaVersion camundaVersion) throws ChangeLogParseException
+    {
         List<String> changeLogsToLoad=new ArrayList<>();
-        switch (camundaVersion)
+        if (camundaVersion.ordinal()>=CamundaVersion.v7_1_0.ordinal())
         {
-            case "7.1.0":
-                changeLogsToLoad.add("camunda_schema_7.1_initial.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.4_to_7.1.5.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.9_to_7.1.10.xml");
-                break;
-            case "7.2.0":
-                changeLogsToLoad.add("camunda_schema_7.1_initial.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.4_to_7.1.5.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.9_to_7.1.10.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_to_7.2.xml");
-                break;
-            case "7.3.0":
-                changeLogsToLoad.add("camunda_schema_7.1_initial.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.4_to_7.1.5.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.9_to_7.1.10.xml");
-                changeLogsToLoad.add("camunda_schema_7.1_to_7.2.xml");
-                changeLogsToLoad.add("camunda_schema_7.2_to_7.3.xml");
-                break;
-            default:
-                throw new RuntimeException("The list of required changelogs for camunda version "+camundaVersion+" is not known");
+            changeLogsToLoad.add("camunda_schema_7.1_initial.xml");
+            changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.4_to_7.1.5.xml");
+            changeLogsToLoad.add("camunda_schema_7.1_patch_7.1.9_to_7.1.10.xml");
+        }
+        if (camundaVersion.ordinal()>=CamundaVersion.v7_2_0.ordinal())
+        {
+            changeLogsToLoad.add("camunda_schema_7.1_to_7.2.xml");
+            changeLogsToLoad.add("camunda_schema_7.2_patch_7.2.6_to_7.2.7.xml");
+        }
+        if (camundaVersion.ordinal()>=CamundaVersion.v7_3_0.ordinal())
+        {
+            changeLogsToLoad.add("camunda_schema_7.2_to_7.3.xml");
+            changeLogsToLoad.add("camunda_schema_7.3_patch_7.3.0_to_7.3.1.xml");
+            changeLogsToLoad.add("camunda_schema_7.3_patch_7.3.2_to_7.3.3.xml");
+            changeLogsToLoad.add("camunda_schema_7.3_patch_7.3.5_to_7.3.6.xml");
+        }
+        if (camundaVersion.ordinal()>=CamundaVersion.v7_4_0.ordinal())
+        {
+            changeLogsToLoad.add("camunda_schema_7.3_to_7.4.xml");
+            changeLogsToLoad.add("camunda_schema_7.4_patch_7.4.2_to_7.4.3.xml");
         }
         XMLChangeLogSAXParser parser=new XMLChangeLogSAXParser();
         DatabaseChangeLog combinedChangeLog=new DatabaseChangeLog();

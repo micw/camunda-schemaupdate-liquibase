@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!-- index to improve historic activity instance query - https://app.camunda.com/jira/browse/CAM-5257 -->
+	
+	<!--
+		create index ACT_IDX_HI_ACT_INST_STATS on ACT_HI_ACTINST(PROC_DEF_ID_, ACT_ID_, END_TIME_, ACT_INST_STATE_); 
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.4-patch_7.4.2-to-7.4.3-1">
+        <createIndex indexName="ACT_IDX_HI_ACT_INST_STATS" tableName="ACT_HI_ACTINST">
+            <column name="PROC_DEF_ID_"/>
+            <column name="ACT_ID_"/>
+            <column name="END_TIME_"/>
+            <column name="ACT_INST_STATE_"/>
+        </createIndex>
+    </changeSet>
+
+	<!-- index to prevent deadlock on fk constraint - https://app.camunda.com/jira/browse/CAM-5440 -->
+	
+	<!--
+		create index ACT_IDX_EXT_TASK_EXEC on ACT_RU_EXT_TASK(EXECUTION_ID_); 
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.4-patch_7.4.2-to-7.4.3-1">
+        <createIndex indexName="ACT_IDX_EXT_TASK_EXEC" tableName="ACT_RU_EXT_TASK">
+            <column name="EXECUTION_ID_"/>
+        </createIndex>
+    </changeSet>
+    
+</databaseChangeLog>

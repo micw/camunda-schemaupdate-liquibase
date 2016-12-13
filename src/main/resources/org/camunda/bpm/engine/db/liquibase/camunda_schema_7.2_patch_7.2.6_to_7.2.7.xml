@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!-- indexes to improve deployment -->
+
+	<!--
+		create index ACT_IDX_BYTEARRAY_NAME on ACT_GE_BYTEARRAY(NAME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-1">
+        <createIndex indexName="ACT_IDX_BYTEARRAY_NAME" tableName="ACT_GE_BYTEARRAY">
+            <column name="NAME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+		create index ACT_IDX_DEPLOYMENT_NAME on ACT_RE_DEPLOYMENT(NAME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-2">
+        <createIndex indexName="ACT_IDX_DEPLOYMENT_NAME" tableName="ACT_RE_DEPLOYMENT">
+            <column name="NAME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+		create index ACT_IDX_JOBDEF_PROC_DEF_ID ON ACT_RU_JOBDEF(PROC_DEF_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-4">
+        <createIndex indexName="ACT_IDX_JOBDEF_PROC_DEF_ID" tableName="ACT_RU_JOBDEF">
+            <column name="PROC_DEF_ID_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+		create index ACT_IDX_JOB_HANDLER_TYPE ON ACT_RU_JOB(HANDLER_TYPE_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-5">
+        <createIndex indexName="ACT_IDX_JOB_HANDLER_TYPE" tableName="ACT_RU_JOB">
+            <column name="HANDLER_TYPE_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+		create index ACT_IDX_EVENT_SUBSCR_EVT_NAME ON ACT_RU_EVENT_SUBSCR(EVENT_NAME_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-3">
+        <createIndex indexName="ACT_IDX_EVENT_SUBSCR_EVT_NAME" tableName="ACT_RU_EVENT_SUBSCR">
+            <column name="EVENT_NAME_"/>
+        </createIndex>
+    </changeSet>
+	
+	<!--
+		create index ACT_IDX_PROCDEF_DEPLOYMENT_ID ON ACT_RE_PROCDEF(DEPLOYMENT_ID_);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.2-patch-7.2.6-to-7.2.7-6">
+        <createIndex indexName="ACT_IDX_PROCDEF_DEPLOYMENT_ID" tableName="ACT_RE_PROCDEF">
+            <column name="DEPLOYMENT_ID_"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

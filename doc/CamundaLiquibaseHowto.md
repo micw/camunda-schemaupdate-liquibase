@@ -18,5 +18,5 @@ Liquibase keeps track of all database updates (called "change sets") that are al
 2. Copy the contents of DATABASECHANGELOG to the target database
 3. Ensure that all changesets are manually applied to the target database
   
-Original changesets can be found at https://docs.camunda.org/manual/7.4/update/patch-level/#database-patches
+Original changesets can be found at https://docs.camunda.org/manual/7.6/update/patch-level/#database-patches
  

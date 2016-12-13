@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!-- https://app.camunda.com/jira/browse/CAM-5364 -->
+	
+	<!--
+		create index ACT_IDX_AUTH_GROUP_ID ON ACT_RU_AUTHORIZATION(GROUP_ID_); 
+	-->
+
+    <changeSet author="generated" id="CAMUNDA-7.3-patch-7.3.5-to-7.3.6-1">
+        <createIndex indexName="ACT_IDX_AUTH_GROUP_ID" tableName="ACT_RU_AUTHORIZATION">
+            <column name="GROUP_ID_"/>
+        </createIndex>
+    </changeSet>
+
+	<!-- https://app.camunda.com/jira/browse/CAM-4328
+		See https://docs.camunda.org/manual/7.5/update/patch-level/#database-patches -->
+    <changeSet author="generated" id="CAMUNDA-7.3-patch-7.3.5-to-7.3.6-2">
+        <modifyDataType columnName="ACT_RU_JOB" newDataType="varchar(255)" tableName="PROCESS_DEF_KEY_"/>
+    </changeSet>
+    
+</databaseChangeLog>

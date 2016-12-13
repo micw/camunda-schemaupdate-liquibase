@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<!--
+		alter table ACT_HI_JOB_LOG
+		  modify ACT_ID_ varchar(255);
+	-->
+    <changeSet author="generated" id="CAMUNDA-7.3-patch-7.3.0-to-7.3.1-1">
+        <modifyDataType columnName="ACT_ID_" newDataType="varchar(255)" tableName="ACT_HI_JOB_LOG"/>
+    </changeSet>
+    
+</databaseChangeLog>
