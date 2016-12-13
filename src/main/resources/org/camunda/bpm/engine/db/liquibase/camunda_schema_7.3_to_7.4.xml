@@ -73,7 +73,7 @@
     <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-5">
         <createTable tableName="ACT_RE_DECISION_DEF">
             <column name="ID_" type="VARCHAR(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="REV_" type="INT"/>
             <column name="CATEGORY_" type="VARCHAR(255)"/>
@@ -88,9 +88,9 @@
             <column name="RESOURCE_NAME_" type="VARCHAR(4000)"/>
             <column name="DGRM_RESOURCE_NAME_" type="VARCHAR(4000)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-6">
-        <addPrimaryKey columnNames="ID_" constraintName="PRIMARY" tableName="ACT_RE_DECISION_DEF"/>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
     </changeSet>
 	
 	<!--
@@ -137,7 +137,7 @@
     <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-9">
         <createTable tableName="ACT_HI_DECINST">
             <column name="ID_" type="VARCHAR(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="DEC_DEF_ID_" type="VARCHAR(64)">
                 <constraints nullable="false"/>
@@ -159,9 +159,9 @@
             </column>
             <column name="COLLECT_VALUE_" type="DOUBLE"/>
         </createTable>
-    </changeSet>
-    <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-10">
-        <addPrimaryKey columnNames="ID_" constraintName="PRIMARY" tableName="ACT_HI_DECINST"/>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
     </changeSet>
 	
 	<!--
@@ -183,7 +183,7 @@
     <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-11">
         <createTable tableName="ACT_HI_DEC_IN">
             <column name="ID_" type="VARCHAR(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="DEC_INST_ID_" type="VARCHAR(64)">
                 <constraints nullable="false"/>
@@ -199,9 +199,9 @@
             <column name="TEXT_" type="VARCHAR(4000)"/>
             <column name="TEXT2_" type="VARCHAR(4000)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-12">
-        <addPrimaryKey columnNames="ID_" constraintName="PRIMARY" tableName="ACT_HI_DEC_IN"/>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
     </changeSet>
 	
 	<!--
@@ -226,7 +226,7 @@
     <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-13">
         <createTable tableName="ACT_HI_DEC_OUT">
             <column name="ID_" type="VARCHAR(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="DEC_INST_ID_" type="VARCHAR(64)">
                 <constraints nullable="false"/>
@@ -247,9 +247,9 @@
             <column name="TEXT_" type="VARCHAR(4000)"/>
             <column name="TEXT2_" type="VARCHAR(4000)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-14">
-        <addPrimaryKey columnNames="ID_" constraintName="PRIMARY" tableName="ACT_HI_DEC_OUT"/>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
     </changeSet>
 	
 	<!--
@@ -402,7 +402,7 @@
     <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-27">
         <createTable tableName="ACT_RU_EXT_TASK">
             <column name="ID_" type="VARCHAR(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="REV_" type="INT">
                 <constraints nullable="false"/>
@@ -411,7 +411,7 @@
             <column name="TOPIC_NAME_" type="VARCHAR(255)"/>
             <column name="RETRIES_" type="INT"/>
             <column name="ERROR_MSG_" type="VARCHAR(4000)"/>
-            <column name="LOCK_EXP_TIME_" type="TIMESTAMP(19)"/>
+            <column name="LOCK_EXP_TIME_" type="TIMESTAMP"/>
             <column name="SUSPENSION_STATE_" type="INT"/>
             <column name="EXECUTION_ID_" type="VARCHAR(64)"/>
             <column name="PROC_INST_ID_" type="VARCHAR(64)"/>
@@ -420,9 +420,9 @@
             <column name="ACT_ID_" type="VARCHAR(255)"/>
             <column name="ACT_INST_ID_" type="VARCHAR(64)"/>
         </createTable>
-    </changeSet>
-    <changeSet author="generated" id="CAMUNDA-7.3-to-7.4-28">
-        <addPrimaryKey columnNames="ID_" constraintName="PRIMARY" tableName="ACT_RU_EXT_TASK"/>
+		<modifySql dbms="mysql">
+    		<append value="ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin"/>
+		</modifySql>        
     </changeSet>
 	
 	<!--
@@ -441,10 +441,6 @@
         	baseColumnNames="EXECUTION_ID_"
         	baseTableName="ACT_RU_EXT_TASK"
         	constraintName="ACT_FK_EXT_TASK_EXE"
-        	deferrable="false"
-        	initiallyDeferred="false"
-        	onDelete="NO ACTION"
-        	onUpdate="NO ACTION"
         	referencedColumnNames="ID_"
         	referencedTableName="ACT_RU_EXECUTION"/>
     </changeSet>

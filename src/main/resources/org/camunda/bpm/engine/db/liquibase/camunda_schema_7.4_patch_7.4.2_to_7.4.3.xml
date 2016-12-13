@@ -20,7 +20,7 @@
 	<!--
 		create index ACT_IDX_EXT_TASK_EXEC on ACT_RU_EXT_TASK(EXECUTION_ID_); 
 	-->
-    <changeSet author="generated" id="CAMUNDA-7.4-patch_7.4.2-to-7.4.3-1">
+    <changeSet author="generated" id="CAMUNDA-7.4-patch_7.4.2-to-7.4.3-2">
         <createIndex indexName="ACT_IDX_EXT_TASK_EXEC" tableName="ACT_RU_EXT_TASK">
             <column name="EXECUTION_ID_"/>
         </createIndex>

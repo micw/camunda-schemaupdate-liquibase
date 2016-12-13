@@ -16,7 +16,7 @@
 	<!-- https://app.camunda.com/jira/browse/CAM-4328
 		See https://docs.camunda.org/manual/7.5/update/patch-level/#database-patches -->
     <changeSet author="generated" id="CAMUNDA-7.3-patch-7.3.5-to-7.3.6-2">
-        <modifyDataType columnName="ACT_RU_JOB" newDataType="varchar(255)" tableName="PROCESS_DEF_KEY_"/>
+        <modifyDataType tableName="ACT_RU_JOB" columnName="PROCESS_DEF_KEY_" newDataType="varchar(255)"/>
     </changeSet>
     
 </databaseChangeLog>
